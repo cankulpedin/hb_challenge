@@ -72,6 +72,10 @@ export const List: FC = () => {
   }, [sortType, connections]);
 
   const incrementByOne = ({ name, url, voteCount }: VoteInterface) => {
+    if (!sortType) {
+      dispatch(setSortOption(sortOptions.MOST_VOTED));
+    }
+
     dispatch(
       addConnection({
         name: name,
@@ -83,6 +87,10 @@ export const List: FC = () => {
   };
 
   const decrementByOne = ({ name, url, voteCount }: VoteInterface) => {
+    if (!sortType) {
+      dispatch(setSortOption(sortOptions.MOST_VOTED));
+    }
+
     if (voteCount !== 0) {
       dispatch(
         addConnection({

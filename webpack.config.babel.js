@@ -14,13 +14,18 @@ module.exports = (env) => {
     target: "web",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "[name].js",
+      filename: "[name].bundle.js",
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
     },
     devServer: {
       historyApiFallback: true, // TODO: later change this to work only in development mode
+    },
+    optimization: {
+      splitChunks: {
+        chunks: "all",
+      },
     },
     module: {
       rules: [

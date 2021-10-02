@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
@@ -22,9 +22,12 @@ export const Dropdown: FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const handleSelect = (selectedValue: sortOptions) => {
-    dispatch(setSortOption(selectedValue));
-  };
+  const handleSelect = useCallback(
+    (selectedValue: sortOptions) => {
+      dispatch(setSortOption(selectedValue));
+    },
+    [dispatch]
+  );
 
   return (
     <StyledDropdown onSelect={handleSelect}>
