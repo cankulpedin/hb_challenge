@@ -26,7 +26,7 @@ export const List: FC = () => {
   );
 
   useEffect(() => {
-    const sortedConnections: connection[] = [...connections].sort(
+    const sortedConnections: connection[] = [...(connections || [])].sort(
       (connection1: connection, connection2: connection) => {
         switch (sortType) {
           case sortOptions.LESS_VOTED:
@@ -69,7 +69,7 @@ export const List: FC = () => {
     <Container>
       <StyledListContainer>
         <Dropdown />
-        {sortedConnections.map((connection: connection, index: number) => (
+        {sortedConnections?.map((connection: connection, index: number) => (
           <ListItem
             key={index}
             point={`${connection.voteCount}`}
