@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 import ROUTE_NAMES from "./routeNames";
 

@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Container, Col, Row } from "react-bootstrap";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { Routes } from "./routes/Routes";
 

@@ -2,13 +2,14 @@
   "name": "hb",
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack-dev-server --open --env.config=dev",
+    "start": "webpack-dev-server -d --open --env.config=dev",
     "build": "webpack --env.config=prod",
     "lint": "eslint . --ext .ts,.tsx,.jsx,.js",
     "pretty": "prettier **/*.{ts,tsx,js,jsx,html,json}"
   },
   "devDependencies": {
     "@babel/core": "7.12.10",
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "7.12.10",
     "@babel/preset-react": "7.12.10",
     "@babel/preset-typescript": "7.12.7",
@@ -40,6 +41,7 @@
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.15.4",
     "@reduxjs/toolkit": "1.5.0",
     "bootstrap": "4.5.3",
     "i18next": "^19.8.4",

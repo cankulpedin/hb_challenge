@@ -12,8 +12,6 @@ const StyletListItem = styled(ListGroup.Item)`
 
 const StyledListContainer = styled(Container)``;
 
-const StyledListRow = styled(Row)``;
-
 const StyledListColumnPoints = styled(Col)`
   border: 1px solid;
   border-radius: 8px;
@@ -72,20 +70,24 @@ const StyledArrowDown = styled(ArrowDown)`
   margin-right: 4px;
 `;
 
+const StyledIconDiv = styled.div`
+  cursor: pointer;
+`;
+
 interface IListItem {
   point: string;
   header: string;
   url: string;
-  upVoteCount: number;
-  downVoteCount: number;
+  onClickUp: () => void;
+  onClickDown: () => void;
 }
 
 export const ListItem: FC<IListItem> = ({
   point,
   header,
   url,
-  upVoteCount,
-  downVoteCount,
+  onClickUp,
+  onClickDown,
 }: IListItem) => {
   const { t } = useTranslation();
 
@@ -108,14 +110,14 @@ export const ListItem: FC<IListItem> = ({
                 <StyledListColumnInfoUrlRow>({url})</StyledListColumnInfoUrlRow>
               </StyledDiv>
               <StyledListColumnInfoVoteRow>
-                <div>
+                <StyledIconDiv onClick={() => onClickUp()}>
                   <StyledArrowUp />
                   {t("up_vote")}
-                </div>
-                <div>
+                </StyledIconDiv>
+                <StyledIconDiv onClick={() => onClickDown()}>
                   <StyledArrowDown />
                   {t("up_vote")}
-                </div>
+                </StyledIconDiv>
               </StyledListColumnInfoVoteRow>
             </StyledListColumnInfoContainer>
           </StyledListColumnInfo>

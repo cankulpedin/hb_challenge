@@ -11,21 +11,36 @@ export interface connectionsState {
 }
 
 const INITIAL_STATE = {
-  connections: [],
+  connections: [
+    {
+      name: "reddit",
+      url: "https://www.reddit.com",
+      voteCount: 0,
+    },
+    {
+      name: "amazon",
+      url: "https://www.amazon.com",
+      voteCount: 0,
+    },
+  ],
 };
 
 const connectionSlice = createSlice({
   name: "connection",
   initialState: INITIAL_STATE,
   reducers: {
-    addUser(state, action: PayloadAction<connection>) {
-      state.connections = [...state.connections, action.payload];
+    addConnection(state, action: PayloadAction<connection>) {
+      const conn = state.connections.find(
+        (connection) => connection.name === action.payload.name
+      );
+
+      conn.voteCount = action.payload.voteCount;
     },
   },
 });
 
 const { actions, reducer } = connectionSlice;
 
-export const {} = actions;
+export const { addConnection } = actions;
 
 export default reducer;
