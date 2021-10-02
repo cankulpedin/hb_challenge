@@ -16,7 +16,6 @@ export const App = (): JSX.Element => {
     <MainContainer>
       <Router>
         <NavigationBar />
-
         <Routes />
       </Router>
     </MainContainer>

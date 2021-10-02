@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export enum sortOptions {
+  MOST_VOTED = "MOST VOTED",
+  LESS_VOTED = "LESS VOTED",
+}
+
 export interface connection {
   name: string;
   url: string;
@@ -8,9 +13,10 @@ export interface connection {
 
 export interface connectionsState {
   connections: connection[];
+  sort?: sortOptions;
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: connectionsState = {
   connections: [
     {
       name: "reddit",
@@ -36,11 +42,14 @@ const connectionSlice = createSlice({
 
       conn.voteCount = action.payload.voteCount;
     },
+    setSortOption(state, action: PayloadAction<sortOptions>) {
+      state.sort = action.payload;
+    },
   },
 });
 
 const { actions, reducer } = connectionSlice;
 
-export const { addConnection } = actions;
+export const { addConnection, setSortOption } = actions;
 
 export default reducer;

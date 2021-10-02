@@ -1,12 +1,16 @@
-import React, { FC } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Container } from "react-bootstrap";
 
 import { ListItem } from "./ListItem";
-import { getConnectionOptions } from "../../store/selectors/connectionSelector";
-import { connection } from "../../store/slices/connectionSlice";
+import { Dropdown } from "../dropdown/Dropdown";
+import {
+  selectConnections,
+  selectSortOption,
+} from "../../store/selectors/connectionSelector";
+import { connection, sortOptions } from "../../store/slices/connectionSlice";
 import { addConnection } from "../../store/slices/connectionSlice";
 
 const StyledListContainer = styled(Container)`
@@ -15,11 +19,29 @@ const StyledListContainer = styled(Container)`
 
 export const List: FC = () => {
   const dispatch = useDispatch();
-  const connections: connection[] = useSelector(getConnectionOptions);
-  const sortedConnections: connection[] = [...connections].sort(
-    (connection1: connection, connection2: connection) =>
-      connection2.voteCount - connection1.voteCount
+  const connections: connection[] = useSelector(selectConnections);
+  const sortType: sortOptions = useSelector(selectSortOption);
+  const [sortedConnections, setSortedConnections] = useState<connection[]>(
+    connections
   );
+
+  useEffect(() => {
+    const sortedConnections: connection[] = [...connections].sort(
+      (connection1: connection, connection2: connection) => {
+        switch (sortType) {
+          case sortOptions.LESS_VOTED:
+            return connection1.voteCount - connection2.voteCount;
+          case sortOptions.MOST_VOTED:
+            return connection2.voteCount - connection1.voteCount;
+
+          default:
+            break;
+        }
+      }
+    );
+
+    setSortedConnections(sortedConnections);
+  }, [sortType, connections]);
 
   const incrementByOne = ({ name, url, voteCount }: connection) => {
     dispatch(
@@ -45,6 +67,7 @@ export const List: FC = () => {
 
   return (
     <StyledListContainer>
+      <Dropdown />
       {sortedConnections.map((connection: connection, index: number) => (
         <ListItem
           key={index}

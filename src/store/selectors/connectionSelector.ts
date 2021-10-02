@@ -1,12 +1,8 @@
-import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "../RootReducer";
-import { connection } from "../slices/connectionSlice";
+import { connection, sortOptions } from "../slices/connectionSlice";
 
-export const getConnectionOptions = createSelector(
-  (state: RootState) => state.connection.connections,
-  (connections: connection[]) => {
-    const connectionsObject: connection[] = connections;
+export const selectConnections = (state: RootState): connection[] =>
+  state.connection.connections;
 
-    return connectionsObject;
-  }
-);
+export const selectSortOption = (state: RootState): sortOptions =>
+  state.connection.sort;

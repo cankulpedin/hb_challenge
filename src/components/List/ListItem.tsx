@@ -6,7 +6,7 @@ import { Container, ListGroup, Col, Row } from "react-bootstrap";
 import { ArrowUp, ArrowDown } from "react-bootstrap-icons";
 
 const StyletListItem = styled(ListGroup.Item)`
-  padding: 8px 12px;
+  padding: 0;
   border: none;
 `;
 
