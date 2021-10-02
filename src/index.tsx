@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import ReduxStore from "./store/RootReducer";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const persistor: any = persistStore(ReduxStore);
 
 ReactDOM.render(

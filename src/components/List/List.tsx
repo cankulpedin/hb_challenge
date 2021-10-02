@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 import { Container } from "react-bootstrap";
 
@@ -10,56 +11,85 @@ import {
   selectConnections,
   selectSortOption,
 } from "../../store/selectors/connectionSelector";
-import { connection, sortOptions } from "../../store/slices/connectionSlice";
+import {
+  connection,
+  setSortOption,
+  sortOptions,
+} from "../../store/slices/connectionSlice";
 import { addConnection } from "../../store/slices/connectionSlice";
 
 const StyledListContainer = styled(Container)`
   padding: 16px 25%;
 `;
 
+interface VoteInterface {
+  name: string;
+  url: string;
+  voteCount: number;
+}
+
 export const List: FC = () => {
   const dispatch = useDispatch();
   const connections: connection[] = useSelector(selectConnections);
   const sortType: sortOptions = useSelector(selectSortOption);
+
   const [sortedConnections, setSortedConnections] = useState<connection[]>(
     connections
   );
 
   useEffect(() => {
-    const sortedConnections: connection[] = [...(connections || [])].sort(
-      (connection1: connection, connection2: connection) => {
-        switch (sortType) {
-          case sortOptions.LESS_VOTED:
-            return connection1.voteCount - connection2.voteCount;
-          case sortOptions.MOST_VOTED:
-            return connection2.voteCount - connection1.voteCount;
+    dispatch(setSortOption(null));
+  }, []);
 
-          default:
-            break;
+  useEffect(() => {
+    let sortedConnections: connection[];
+
+    if (sortType) {
+      sortedConnections = [...(connections || [])].sort(
+        (connection1: connection, connection2: connection) => {
+          switch (sortType) {
+            case sortOptions.LESS_VOTED:
+              return connection1.voteCount - connection2.voteCount;
+            case sortOptions.MOST_VOTED:
+              return connection2.voteCount - connection1.voteCount;
+
+            default:
+              break;
+          }
         }
-      }
-    );
+      );
+    } else {
+      sortedConnections = [...(connections || [])].sort(
+        (connection1: connection, connection2: connection) => {
+          if (moment(connection1.lastUpdate).isAfter(connection2.lastUpdate)) {
+            return -1;
+          } else return 1;
+        }
+      );
+    }
 
     setSortedConnections(sortedConnections);
   }, [sortType, connections]);
 
-  const incrementByOne = ({ name, url, voteCount }: connection) => {
+  const incrementByOne = ({ name, url, voteCount }: VoteInterface) => {
     dispatch(
       addConnection({
         name: name,
         url: url,
         voteCount: voteCount + 1,
+        lastUpdate: moment().toString(),
       })
     );
   };
 
-  const decrementByOne = ({ name, url, voteCount }: connection) => {
+  const decrementByOne = ({ name, url, voteCount }: VoteInterface) => {
     if (voteCount !== 0) {
       dispatch(
         addConnection({
           name: name,
           url: url,
           voteCount: voteCount - 1,
+          lastUpdate: moment().toString(),
         })
       );
     }

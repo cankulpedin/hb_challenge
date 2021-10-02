@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import moment from "moment";
 
 export enum sortOptions {
   MOST_VOTED = "MOST VOTED",
@@ -8,6 +9,7 @@ export enum sortOptions {
 export interface connection {
   name: string;
   url: string;
+  lastUpdate: string;
   voteCount: number;
 }
 
@@ -22,11 +24,13 @@ const INITIAL_STATE: connectionsState = {
       name: "reddit",
       url: "https://www.reddit.com",
       voteCount: 0,
+      lastUpdate: moment().toString(),
     },
     {
       name: "amazon",
       url: "https://www.amazon.com",
       voteCount: 0,
+      lastUpdate: moment().toString(),
     },
   ],
 };
@@ -41,8 +45,9 @@ const connectionSlice = createSlice({
       );
 
       conn.voteCount = action.payload.voteCount;
+      conn.lastUpdate = action.payload.lastUpdate;
     },
-    setSortOption(state, action: PayloadAction<sortOptions>) {
+    setSortOption(state, action: PayloadAction<sortOptions | null>) {
       state.sort = action.payload;
     },
   },
