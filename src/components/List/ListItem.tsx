@@ -120,7 +120,7 @@ export const ListItem: FC<IListItem> = ({
                 </StyledIconDiv>
                 <StyledIconDiv onClick={() => onClickDown()}>
                   <StyledArrowDown />
-                  {t("up_vote")}
+                  {t("down_vote")}
                 </StyledIconDiv>
               </StyledListColumnInfoVoteRow>
             </StyledListColumnInfoContainer>
