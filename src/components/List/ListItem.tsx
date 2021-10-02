@@ -8,6 +8,10 @@ import { ArrowUp, ArrowDown } from "react-bootstrap-icons";
 const StyletListItem = styled(ListGroup.Item)`
   padding: 0;
   border: none;
+  max-height: 160px;
+  width: 560px;
+  max-width: 560px;
+  margin-top: 16px;
 `;
 
 const StyledListContainer = styled(Container)``;
@@ -15,8 +19,8 @@ const StyledListContainer = styled(Container)``;
 const StyledListColumnPoints = styled(Col)`
   border: 1px solid;
   border-radius: 8px;
-  max-width: 160px;
-  height: 160px;
+  max-width: 120px;
+  height: 120px;
   justify-content: center;
   align-items: center;
   display: flex;

@@ -5,4 +5,5 @@ export default {
   order_by: "Order by",
   most_voted: "Most Voted (Z->A)",
   less_voted: "Less Voted (A->Z)",
+  submit_a_link: "SUBMIT A LINK",
 };

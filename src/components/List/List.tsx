@@ -66,30 +66,32 @@ export const List: FC = () => {
   };
 
   return (
-    <StyledListContainer>
-      <Dropdown />
-      {sortedConnections.map((connection: connection, index: number) => (
-        <ListItem
-          key={index}
-          point={`${connection.voteCount}`}
-          header={connection.name}
-          url={connection.url}
-          onClickUp={() =>
-            incrementByOne({
-              name: connection.name,
-              url: connection.url,
-              voteCount: connection.voteCount,
-            })
-          }
-          onClickDown={() =>
-            decrementByOne({
-              name: connection.name,
-              url: connection.url,
-              voteCount: connection.voteCount,
-            })
-          }
-        />
-      ))}
-    </StyledListContainer>
+    <Container>
+      <StyledListContainer>
+        <Dropdown />
+        {sortedConnections.map((connection: connection, index: number) => (
+          <ListItem
+            key={index}
+            point={`${connection.voteCount}`}
+            header={connection.name}
+            url={connection.url}
+            onClickUp={() =>
+              incrementByOne({
+                name: connection.name,
+                url: connection.url,
+                voteCount: connection.voteCount,
+              })
+            }
+            onClickDown={() =>
+              decrementByOne({
+                name: connection.name,
+                url: connection.url,
+                voteCount: connection.voteCount,
+              })
+            }
+          />
+        ))}
+      </StyledListContainer>
+    </Container>
   );
 };
