@@ -13,7 +13,7 @@ const StyledNavBar = styled(Navbar)`
 
 export const NavigationBar: FC = () => (
   <StyledNavBar>
-    <Navbar.Brand>HB</Navbar.Brand>
+    <Navbar.Brand>Hepsiburada.com</Navbar.Brand>
     <Navbar.Text>LinkVOTE Challenge</Navbar.Text>
   </StyledNavBar>
 );

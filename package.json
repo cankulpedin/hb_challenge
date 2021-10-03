@@ -1,5 +1,5 @@
 {
-  "name": "hb",
+  "name": "hepsiburada_challenge",
   "version": "0.0.1",
   "scripts": {
     "start": "webpack-dev-server -d --open --env.config=dev",
