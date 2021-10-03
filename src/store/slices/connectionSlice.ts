@@ -39,13 +39,16 @@ const connectionSlice = createSlice({
   name: "connection",
   initialState: INITIAL_STATE,
   reducers: {
-    addConnection(state, action: PayloadAction<connection>) {
+    setVoteCount(state, action: PayloadAction<connection>) {
       const conn = state.connections.find(
         (connection) => connection.name === action.payload.name
       );
 
       conn.voteCount = action.payload.voteCount;
       conn.lastUpdate = action.payload.lastUpdate;
+    },
+    addConnection(state, action: PayloadAction<connection>) {
+      state.connections.push(action.payload);
     },
     setSortOption(state, action: PayloadAction<sortOptions | null>) {
       state.sort = action.payload;
@@ -55,6 +58,6 @@ const connectionSlice = createSlice({
 
 const { actions, reducer } = connectionSlice;
 
-export const { addConnection, setSortOption } = actions;
+export const { setVoteCount, setSortOption, addConnection } = actions;
 
 export default reducer;

@@ -8,6 +8,7 @@ export default {
   submit_a_link: "SUBMIT A LINK",
   link_name: "Link Name",
   link_url: "Link URL",
-  add: "add",
+  add: "ADD",
   return_to_list: "Return to list",
+  add_new_link: "Add New Link",
 };

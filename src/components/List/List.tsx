@@ -16,7 +16,7 @@ import {
   setSortOption,
   sortOptions,
 } from "../../store/slices/connectionSlice";
-import { addConnection } from "../../store/slices/connectionSlice";
+import { setVoteCount } from "../../store/slices/connectionSlice";
 
 const StyledListContainer = styled(Container)`
   padding: 16px 25%;
@@ -77,7 +77,7 @@ export const List: FC = () => {
     }
 
     dispatch(
-      addConnection({
+      setVoteCount({
         name: name,
         url: url,
         voteCount: voteCount + 1,
@@ -93,7 +93,7 @@ export const List: FC = () => {
 
     if (voteCount !== 0) {
       dispatch(
-        addConnection({
+        setVoteCount({
           name: name,
           url: url,
           voteCount: voteCount - 1,
