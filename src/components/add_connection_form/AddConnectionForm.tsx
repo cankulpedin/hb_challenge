@@ -118,7 +118,12 @@ export const AddConnectionForm: FC = () => {
             }}
           />
         </InputGroup>
-        <StyledButton onClick={addNewConnection}>{t("add")}</StyledButton>
+        <StyledButton
+          onClick={addNewConnection}
+          disabled={!linkName || !linkUrl}
+        >
+          {t("add")}
+        </StyledButton>
       </StyledFormContainer>
     </StyledFormParentContainer>
   );

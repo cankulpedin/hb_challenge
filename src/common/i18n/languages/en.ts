@@ -14,4 +14,7 @@ export default {
   added_alert: "{{link}} added",
   removed_alert: "{{link}} removed",
   do_you_want_to_remove: "Do you want to remove:",
+  remove_link: "Remove Link",
+  ok: "ok",
+  cancel: "cancel",
 };

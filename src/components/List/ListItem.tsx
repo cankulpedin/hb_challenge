@@ -1,17 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 import { Container, ListGroup, Col, Row } from "react-bootstrap";
-import { ArrowUp, ArrowDown } from "react-bootstrap-icons";
+import { ArrowUp, ArrowDown, DashCircleFill } from "react-bootstrap-icons";
 
 const StyletListItem = styled(ListGroup.Item)`
-  padding: 0;
+  position: relative;
+  padding: 4px;
   border: none;
   max-height: 160px;
   width: 560px;
   max-width: 560px;
   margin-top: 16px;
+  background-color: ${(props) => (props.highlight ? "lightgrey" : "none")};
+  border-radius: 8px;
 `;
 
 const StyledListContainer = styled(Container)``;
@@ -78,12 +81,24 @@ const StyledIconDiv = styled.div`
   cursor: pointer;
 `;
 
+const StyledDashCircleFill = styled(DashCircleFill)`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  color: red;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  z-index: 999;
+`;
+
 interface IListItem {
   point: string;
   header: string;
   url: string;
   onClickUp: () => void;
   onClickDown: () => void;
+  onClickDelete: () => void;
 }
 
 export const ListItem: FC<IListItem> = ({
@@ -92,11 +107,27 @@ export const ListItem: FC<IListItem> = ({
   url,
   onClickUp,
   onClickDown,
+  onClickDelete,
 }: IListItem) => {
   const { t } = useTranslation();
+  const [showDeleteButton, setShowDeleteButton] = useState<boolean>(false);
+  const [highlight, setHighlight] = useState<boolean>(false);
 
   return (
-    <StyletListItem>
+    <StyletListItem
+      onMouseEnter={() => {
+        setShowDeleteButton(true);
+        setHighlight(true);
+      }}
+      onMouseLeave={() => {
+        setShowDeleteButton(false);
+        setHighlight(false);
+      }}
+      highlight={highlight}
+    >
+      {showDeleteButton && (
+        <StyledDashCircleFill onClick={() => onClickDelete()} />
+      )}
       <StyledListContainer>
         <Row>
           <StyledListColumnPoints>

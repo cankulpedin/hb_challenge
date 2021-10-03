@@ -6,3 +6,6 @@ export const selectConnections = (state: RootState): connection[] =>
 
 export const selectSortOption = (state: RootState): sortOptions =>
   state.connection.sort;
+
+export const selectIdToDelete = (state: RootState): string =>
+  state.connection.idToDelete;

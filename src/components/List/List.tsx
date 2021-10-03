@@ -13,16 +13,19 @@ import {
 } from "../../store/selectors/connectionSelector";
 import {
   connection,
+  setIdToDelete,
   setSortOption,
   sortOptions,
 } from "../../store/slices/connectionSlice";
 import { setVoteCount } from "../../store/slices/connectionSlice";
 import { PAGINATION_COUNT } from "../../common/constants";
+import { DeleteModal } from "../modal/DeleteModal";
 
 interface VoteInterface {
   name: string;
   url: string;
   voteCount: number;
+  id: string;
 }
 
 const StyledListContainer = styled(Container)`
@@ -57,11 +60,11 @@ export const List: FC = () => {
     0,
     PAGINATION_COUNT,
   ]);
-
-  console.log(indexToShow);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(setSortOption(null));
+    dispatch(setIdToDelete(undefined));
   }, []);
 
   useEffect(() => {
@@ -108,22 +111,23 @@ export const List: FC = () => {
     setSortedConnections(sortedConnections);
   }, [sortType, connections]);
 
-  const incrementByOne = ({ name, url, voteCount }: VoteInterface) => {
+  const incrementByOne = ({ name, url, voteCount, id }: VoteInterface) => {
     /* if (!sortType) {
       dispatch(setSortOption(sortOptions.MOST_VOTED));
     } */
 
     dispatch(
       setVoteCount({
-        name: name,
-        url: url,
+        name,
+        url,
         voteCount: voteCount + 1,
         lastUpdate: moment().toString(),
+        id,
       })
     );
   };
 
-  const decrementByOne = ({ name, url, voteCount }: VoteInterface) => {
+  const decrementByOne = ({ name, url, voteCount, id }: VoteInterface) => {
     /* if (!sortType) {
       dispatch(setSortOption(sortOptions.MOST_VOTED));
     } */
@@ -131,10 +135,11 @@ export const List: FC = () => {
     if (voteCount !== 0) {
       dispatch(
         setVoteCount({
-          name: name,
-          url: url,
+          name,
+          url,
           voteCount: voteCount - 1,
           lastUpdate: moment().toString(),
+          id,
         })
       );
     }
@@ -171,8 +176,18 @@ export const List: FC = () => {
     return <StyledPagination>{paginationArray}</StyledPagination>;
   };
 
+  const showDeleteModal = (id: string) => {
+    dispatch(setIdToDelete(id));
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
   return (
     <Container>
+      <DeleteModal showModal={showModal} onClose={handleClose} />
       <StyledListContainer>
         <Dropdown />
         {sortedConnections
@@ -187,6 +202,7 @@ export const List: FC = () => {
                   name: connection.name,
                   url: connection.url,
                   voteCount: connection.voteCount,
+                  id: connection.id,
                 })
               }
               onClickDown={() =>
@@ -194,8 +210,12 @@ export const List: FC = () => {
                   name: connection.name,
                   url: connection.url,
                   voteCount: connection.voteCount,
+                  id: connection.id,
                 })
               }
+              onClickDelete={() => {
+                showDeleteModal(connection.id);
+              }}
             />
           ))
           .slice(indexToShow[0], indexToShow[1])}

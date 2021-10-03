@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import moment from "moment";
+import { v4 as uuid } from "uuid";
 
 export enum sortOptions {
   MOST_VOTED = "MOST VOTED",
@@ -11,122 +12,30 @@ export interface connection {
   url: string;
   lastUpdate: string;
   voteCount: number;
+  id?: string;
 }
 
 export interface connectionsState {
   connections: connection[];
   sort?: sortOptions;
+  idToDelete?: string;
 }
 
 const INITIAL_STATE: connectionsState = {
   connections: [
     {
-      name: "reddit1",
+      name: "reddit",
       url: "https://www.reddit.com",
       voteCount: 0,
       lastUpdate: moment().toString(),
+      id: uuid(),
     },
     {
-      name: "amazon2",
+      name: "amazon",
       url: "https://www.amazon.com",
       voteCount: 0,
       lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit3",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon4",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit5",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon6",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit7",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon8",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit9",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon10",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit11",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon12",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit13",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon14",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit15",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon16",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "reddit17",
-      url: "https://www.reddit.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
-    },
-    {
-      name: "amazon18",
-      url: "https://www.amazon.com",
-      voteCount: 0,
-      lastUpdate: moment().toString(),
+      id: uuid(),
     },
   ],
 };
@@ -137,23 +46,38 @@ const connectionSlice = createSlice({
   reducers: {
     setVoteCount(state, action: PayloadAction<connection>) {
       const conn = state.connections.find(
-        (connection) => connection.name === action.payload.name
+        (connection) => connection.id === action.payload.id
       );
 
       conn.voteCount = action.payload.voteCount;
       conn.lastUpdate = action.payload.lastUpdate;
     },
     addConnection(state, action: PayloadAction<connection>) {
-      state.connections.push(action.payload);
+      const id: string = uuid();
+      state.connections.push({ ...action.payload, id });
     },
     setSortOption(state, action: PayloadAction<sortOptions | null>) {
       state.sort = action.payload;
+    },
+    setIdToDelete(state, action: PayloadAction<string>) {
+      state.idToDelete = action.payload;
+    },
+    deleteConnection(state, action: PayloadAction<string>) {
+      state.connections = state.connections.filter(
+        (connection) => connection.id !== action.payload
+      );
     },
   },
 });
 
 const { actions, reducer } = connectionSlice;
 
-export const { setVoteCount, setSortOption, addConnection } = actions;
+export const {
+  setVoteCount,
+  setSortOption,
+  addConnection,
+  setIdToDelete,
+  deleteConnection,
+} = actions;
 
 export default reducer;
