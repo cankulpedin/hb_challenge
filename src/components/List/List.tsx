@@ -20,6 +20,8 @@ import {
 import { setVoteCount } from "../../store/slices/connectionSlice";
 import { PAGINATION_COUNT } from "../../common/constants";
 import { DeleteModal } from "../modal/DeleteModal";
+import { Alert } from "../alert/Alert";
+import { useTranslation } from "react-i18next";
 
 interface VoteInterface {
   name: string;
@@ -49,6 +51,7 @@ const getSortAccordingToTime = (
 
 export const List: FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const connections: connection[] = useSelector(selectConnections);
   const sortType: sortOptions = useSelector(selectSortOption);
 
@@ -61,6 +64,8 @@ export const List: FC = () => {
     PAGINATION_COUNT,
   ]);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [deletedLink, setDeletedLink] = useState<string>("");
 
   useEffect(() => {
     dispatch(setSortOption(null));
@@ -181,12 +186,24 @@ export const List: FC = () => {
     setShowModal(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (deletedConnectionName?: string) => {
     setShowModal(false);
+    if (deletedConnectionName) {
+      setShowAlert(true);
+      setDeletedLink(deletedConnectionName);
+
+      window.setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
   };
 
   return (
     <Container>
+      <Alert
+        alertMessage={t("removed_alert", { link: deletedLink })}
+        show={showAlert}
+      />
       <DeleteModal showModal={showModal} onClose={handleClose} />
       <StyledListContainer>
         <Dropdown />

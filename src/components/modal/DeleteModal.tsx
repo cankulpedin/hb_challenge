@@ -15,7 +15,7 @@ import {
 
 interface ModalProps {
   showModal: boolean;
-  onClose: () => void;
+  onClose: (connectionName?: string) => void;
 }
 
 const StyledModalButton = styled(Button)``;
@@ -71,7 +71,7 @@ export const DeleteModal: FC<ModalProps> = ({
   const handleDelete = () => {
     dispatch(deleteConnection(id));
     setShow(false);
-    onClose();
+    onClose(connectionName);
   };
 
   return (
