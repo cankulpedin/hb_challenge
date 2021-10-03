@@ -33,6 +33,17 @@ const StyledPagination = styled(Pagination)`
   margin-top: 40px;
 `;
 
+const getSortAccordingToTime = (
+  time1: moment.Moment,
+  time2: moment.Moment
+): number => {
+  if (moment(time1).isAfter(time2)) {
+    return -1;
+  } else {
+    return 1;
+  }
+};
+
 export const List: FC = () => {
   const dispatch = useDispatch();
   const connections: connection[] = useSelector(selectConnections);
@@ -61,10 +72,23 @@ export const List: FC = () => {
         (connection1: connection, connection2: connection) => {
           switch (sortType) {
             case sortOptions.LESS_VOTED:
-              return connection1.voteCount - connection2.voteCount;
+              if (connection1.voteCount !== connection2.voteCount) {
+                return connection1.voteCount - connection2.voteCount;
+              } else {
+                return getSortAccordingToTime(
+                  moment(connection1.lastUpdate),
+                  moment(connection2.lastUpdate)
+                );
+              }
             case sortOptions.MOST_VOTED:
-              return connection2.voteCount - connection1.voteCount;
-
+              if (connection1.voteCount !== connection2.voteCount) {
+                return connection2.voteCount - connection1.voteCount;
+              } else {
+                return getSortAccordingToTime(
+                  moment(connection1.lastUpdate),
+                  moment(connection2.lastUpdate)
+                );
+              }
             default:
               break;
           }
@@ -73,9 +97,10 @@ export const List: FC = () => {
     } else {
       sortedConnections = [...(connections || [])].sort(
         (connection1: connection, connection2: connection) => {
-          if (moment(connection1.lastUpdate).isAfter(connection2.lastUpdate)) {
-            return -1;
-          } else return 1;
+          return getSortAccordingToTime(
+            moment(connection1.lastUpdate),
+            moment(connection2.lastUpdate)
+          );
         }
       );
     }
@@ -84,9 +109,9 @@ export const List: FC = () => {
   }, [sortType, connections]);
 
   const incrementByOne = ({ name, url, voteCount }: VoteInterface) => {
-    if (!sortType) {
+    /* if (!sortType) {
       dispatch(setSortOption(sortOptions.MOST_VOTED));
-    }
+    } */
 
     dispatch(
       setVoteCount({
@@ -99,9 +124,9 @@ export const List: FC = () => {
   };
 
   const decrementByOne = ({ name, url, voteCount }: VoteInterface) => {
-    if (!sortType) {
+    /* if (!sortType) {
       dispatch(setSortOption(sortOptions.MOST_VOTED));
-    }
+    } */
 
     if (voteCount !== 0) {
       dispatch(

@@ -11,14 +11,19 @@ import {
   Button,
 } from "react-bootstrap";
 import { ArrowLeft } from "react-bootstrap-icons";
+import { useHistory } from "react-router-dom";
 
 import { addConnection } from "../../store/slices/connectionSlice";
-import { useHistory } from "react-router-dom";
+import { Alert } from "../alert/Alert";
 
 declare type FormControlElement =
   | HTMLInputElement
   | HTMLSelectElement
   | HTMLTextAreaElement;
+
+const StyledFormParentContainer = styled(Container)`
+  position: relative;
+`;
 
 const StyledFormContainer = styled(Container)`
   display: flex;
@@ -59,6 +64,7 @@ export const AddConnectionForm: FC = () => {
 
   const [linkName, setLinkName] = useState<string>("");
   const [linkUrl, setLinkUrl] = useState<string>("");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const addNewConnection = () => {
     dispatch(
@@ -69,6 +75,11 @@ export const AddConnectionForm: FC = () => {
         lastUpdate: moment().toString(),
       })
     );
+    setShowAlert(true);
+
+    window.setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
   };
 
   const goBack = () => {
@@ -76,7 +87,11 @@ export const AddConnectionForm: FC = () => {
   };
 
   return (
-    <Container>
+    <StyledFormParentContainer>
+      <Alert
+        show={showAlert}
+        alertMessage={t("added_alert", { link: linkName })}
+      />
       <StyledFormContainer>
         <StyledLink onClick={goBack}>
           <StyledArrow />
@@ -105,6 +120,6 @@ export const AddConnectionForm: FC = () => {
         </InputGroup>
         <StyledButton onClick={addNewConnection}>{t("add")}</StyledButton>
       </StyledFormContainer>
-    </Container>
+    </StyledFormParentContainer>
   );
 };

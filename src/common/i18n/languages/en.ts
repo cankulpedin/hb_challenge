@@ -11,4 +11,7 @@ export default {
   add: "ADD",
   return_to_list: "Return to list",
   add_new_link: "Add New Link",
+  added_alert: "{{link}} added",
+  removed_alert: "{{link}} removed",
+  do_you_want_to_remove: "Do you want to remove:",
 };
