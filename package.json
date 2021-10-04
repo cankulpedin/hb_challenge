@@ -1,12 +1,12 @@
 {
   "name": "hepsiburada_challenge",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server -d --open --env.config=dev",
     "build": "webpack --env.config=prod",
     "lint": "eslint . --ext .ts,.tsx,.jsx,.js",
     "pretty": "prettier **/*.{ts,tsx,js,jsx,html,json}",
-    "test": "jest --collectCoverage --setupTestFrameworkScriptFile=./setupTest.js"
+    "test": "jest --setupTestFrameworkScriptFile=./setupTest.js"
   },
   "devDependencies": {
     "@babel/core": "7.12.10",
