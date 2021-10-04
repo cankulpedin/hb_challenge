@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import ROUTE_NAMES from "./routeNames";
 
-import { List } from "../components/List/List";
+import { List } from "../components/list/List";
 import { AddConnection } from "../components/add_connection/AddConnection";
 import { AddConnectionForm } from "../components/add_connection_form/AddConnectionForm";
 
